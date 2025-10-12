@@ -1,7 +1,12 @@
+import { AuthForm } from "../components"
+import { AuthLayout } from "../components/layout"
+
 export const Login = () => {
 
-    return(
-        <h1>LOGIN</h1>
+    return (
+        <AuthLayout>
+            <AuthForm />
+        </AuthLayout>
     )
 
 }
