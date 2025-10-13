@@ -1,35 +1,41 @@
+import { AuthFormLayout } from "../layout/AuthFormLayout"
+import z from 'zod'
+import { useForm, type SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CustomField } from "../fileds/CustomField"
 import { Button } from "../ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
-import { Input } from "../ui/input"
-import { Label } from "../ui/label"
+
+const schema = z.object({
+    username: z.string().min(1, 'El nombre de usuario es obligatorio'),
+    password: z.string().min(8, 'La contraseña debe de tener un minimo de 8 caracteres').max(12, 'La contraseña debe de tener un maximo de 12 caracteres')
+})
+
+type formValues = z.infer<typeof schema>
+
+
+const description: string = 'Ingresa con tu nombre de usuario y contraseña'
 
 export const AuthForm = () => {
-    return (
-        <Card className="md:w-1/3 w-full">
-            <CardHeader>
-                <CardTitle className="text-center">Bienvenido a Codigo Trauma</CardTitle>
-                <CardTitle>Inicio De Sesión</CardTitle>
-                <CardDescription>
-                    Ingresa con tu correo electronico y contraseña
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                {/* Formulario para iniciar sesion  */}
-                <form className="flex flex-col gap-10">
-                    <fieldset className="flex flex-col gap-2">
-                        <Label  htmlFor="email"> Correo electronico  </Label>
-                        <Input type="email" placeholder="Ingresa tu correo electronico" id="email"/>
-                    </fieldset>
 
-                    <fieldset className="flex flex-col gap-2">
-                        <Label  htmlFor="password"> Contraseña  </Label>
-                        <Input type="password" placeholder="Ingresa tu contraseña" id="password"/>
-                    </fieldset>
-                </form>
-            </CardContent>
-            <CardFooter>
-                <Button className="w-full" variant={"default"}>Iniciar Sesión</Button>
-            </CardFooter>
-        </Card>
+    const { control, handleSubmit, formState: { errors } } = useForm<formValues>({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            username: '',
+            password: ''
+        }
+    })
+
+    const onSubmit: SubmitHandler<formValues> = (data) => {
+        console.log(data)
+    }
+
+    return (
+        <AuthFormLayout buttonText="Iniciar Sesión" description={description} title="Inicio De Sesión" buttonType="submit" titleOp="Bienvenido a Codigo Trauma" >
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+                <CustomField control={control} label="Nombre de usuario" name="username" placeholder="Ingresa tu nombre de usuario" error={errors.username} type="text" />
+                <CustomField control={control} label="Contraseña" name="password" placeholder="Ingresa tu contraseña" error={errors.password} type="password" />
+                <Button className="w-full" type="submit">Iniciar Sesion</Button>
+            </form>
+        </AuthFormLayout>
     )
 }
