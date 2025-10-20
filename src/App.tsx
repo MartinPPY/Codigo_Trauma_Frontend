@@ -1,8 +1,15 @@
+import type { ReactNode } from "react"
 
 
-function App() {
+interface Props {
+  children: ReactNode
+}
+
+function App({ children }: Props) {
   return (
-    <p>codigo trauma</p>
+    <>
+      {children}
+    </>
   )
 }
 
