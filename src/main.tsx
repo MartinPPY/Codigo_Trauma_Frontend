@@ -4,6 +4,7 @@ import './index.css'
 import { AppHookContainer } from './AppHookContainer.tsx'
 
 createRoot(document.getElementById('root')!).render(
+
   <StrictMode>
     <AppHookContainer />
   </StrictMode>,
