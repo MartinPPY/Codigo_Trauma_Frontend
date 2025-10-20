@@ -1,14 +1,15 @@
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import type { LoginResponse } from "../models";
+import axios from "axios";
 
 export let axiosInstance: AxiosInstance;
 
 const createAxiosInstance = (baseURL: string) => {
-    axiosInstance = axiosInstance.create({ baseURL: baseURL })
+    axiosInstance = axios.create({ baseURL: baseURL })
 }
 
 const setupInteceptos = () => {
-
+    
     axiosInstance.interceptors.request.use(
         (config: InternalAxiosRequestConfig) => {
             const loginResponse: LoginResponse = JSON.parse(localStorage.getItem('user') || '{}')
