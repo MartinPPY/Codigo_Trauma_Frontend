@@ -1,7 +1,7 @@
 
 export interface LoginRequest {
     username: string,
-    passwrod: string
+    password: string
 }
 
 export interface LoginResponse {

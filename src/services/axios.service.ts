@@ -9,14 +9,14 @@ const createAxiosInstance = (baseURL: string) => {
 }
 
 const setupInteceptos = () => {
-    
+
     axiosInstance.interceptors.request.use(
         (config: InternalAxiosRequestConfig) => {
             const loginResponse: LoginResponse = JSON.parse(localStorage.getItem('user') || '{}')
             if (loginResponse.token) {
                 config.headers.set('Authorization', `Bearer ${loginResponse.token}`)
             }
-
+            console.log(`Request made to: ${config.url}`)
             return config
         },
         (error) => {
@@ -25,6 +25,10 @@ const setupInteceptos = () => {
     ),
         axiosInstance.interceptors.response.use(
             (response: AxiosResponse) => {
+                console.log(`Response from: ${response.config.url}`, {
+                    data: response.data,
+                    status: response.status,
+                });
 
 
                 return response
